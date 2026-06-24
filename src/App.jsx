@@ -8,6 +8,8 @@ import EmploymentTypesPage from "./pages/Employees/EmploymentTypesPage";
 import AttendancePage from "./pages/Attendance/AttendancePage";
 import LeaveRouter from "./pages/Leave/LeaveRouter";
 import PayrollRouter from "./pages/Payroll/PayrollRouter";
+import NotFound from "./pages/NotFound/NotFound";
+import HolidaysPage from "./pages/Holidays/HolidaysPage";
 
 function App() {
   return (
@@ -67,6 +69,16 @@ function App() {
           </ProtectedRoute>
         }
       />
+
+      <Route
+        path="/holidays"
+        element={
+          <ProtectedRoute>
+            <HolidaysPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

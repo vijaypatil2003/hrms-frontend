@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../../utils/axios";
 
 const LeaveForm = ({ onSuccess }) => {
@@ -10,7 +10,12 @@ const LeaveForm = ({ onSuccess }) => {
     halfDaySession: "first",
     reason: "",
   });
+  const [balance, setBalance] = useState([]);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    api.get("/leaves/balance").then((res) => setBalance(res.data));
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -36,14 +41,21 @@ const LeaveForm = ({ onSuccess }) => {
       {error && <p className="text-red-600 text-sm">{error}</p>}
       <div>
         <label className="block text-sm text-gray-600 mb-1">Leave Type</label>
-        <input
+        <select
           name="leaveType"
           value={form.leaveType}
           onChange={handleChange}
-          placeholder="e.g. Casual Leave"
           className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
           required
-        />
+        >
+          <option value="">Select</option>
+          {balance.map((b) => (
+            <option key={b.leaveType} value={b.leaveType}>
+              {b.leaveType} ({b.remaining} remaining)
+            </option>
+          ))}
+          <option value="Unpaid Leave">Unpaid Leave</option>
+        </select>
       </div>
       <div>
         <label className="block text-sm text-gray-600 mb-1">From Date</label>

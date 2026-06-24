@@ -32,11 +32,9 @@ const Sidebar = () => {
         <NavLink to="/leaves" className={linkClass}>
           Leaves
         </NavLink>
-        {user?.role === "admin" && (
-          <NavLink to="/holidays" className={linkClass}>
-            Holidays
-          </NavLink>
-        )}
+        <NavLink to="/holidays" className={linkClass}>
+          Holidays
+        </NavLink>
         <NavLink to="/payroll" className={linkClass}>
           Payroll
         </NavLink>
