@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard/DashboardPage";
 import Employees from "./pages/Employees/EmployeesPage";
@@ -11,9 +12,14 @@ import HolidaysPage from "./pages/Holidays/HolidaysPage";
 import AttendanceRouter from "./pages/Attendance/AttendanceRouter";
 
 function App() {
+  const { user } = useAuth();
+
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/login" />} />
+      <Route
+        path="/"
+        element={<Navigate to={user ? "/dashboard" : "/login"} />}
+      />
       <Route path="/login" element={<Login />} />
       <Route
         path="/dashboard"
