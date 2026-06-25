@@ -26,6 +26,7 @@ const PayrollTable = ({ records, isAdmin }) => {
             )}
             <th className="text-left px-4 py-2 border-b">Month</th>
             <th className="text-left px-4 py-2 border-b">Working Days</th>
+            <th className="text-left px-4 py-2 border-b">Present</th>
             <th className="text-left px-4 py-2 border-b">Paid Days</th>
             <th className="text-left px-4 py-2 border-b">Absent</th>
             <th className="text-left px-4 py-2 border-b">Leaves</th>
@@ -44,6 +45,7 @@ const PayrollTable = ({ records, isAdmin }) => {
                 {r.month}/{r.year}
               </td>
               <td className="px-4 py-2 border-b">{r.workingDays}</td>
+              <td className="px-4 py-2 border-b">{r.presentDays}</td>
               <td className="px-4 py-2 border-b">{r.paidDays}</td>
               <td className="px-4 py-2 border-b">{r.absentDays}</td>
               <td className="px-4 py-2 border-b">

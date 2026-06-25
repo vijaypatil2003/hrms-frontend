@@ -1,15 +1,14 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
-// import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard/DashboardPage";
 import Employees from "./pages/Employees/EmployeesPage";
 import Login from "./pages/Auth/LoginPage";
 import EmploymentTypesPage from "./pages/Employees/EmploymentTypesPage";
-import AttendancePage from "./pages/Attendance/AttendancePage";
 import LeaveRouter from "./pages/Leave/LeaveRouter";
 import PayrollRouter from "./pages/Payroll/PayrollRouter";
 import NotFound from "./pages/NotFound/NotFound";
 import HolidaysPage from "./pages/Holidays/HolidaysPage";
+import AttendanceRouter from "./pages/Attendance/AttendanceRouter";
 
 function App() {
   return (
@@ -47,7 +46,7 @@ function App() {
         path="/attendance"
         element={
           <ProtectedRoute>
-            <AttendancePage />
+            <AttendanceRouter />
           </ProtectedRoute>
         }
       />
