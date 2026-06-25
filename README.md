@@ -1,16 +1,62 @@
-# React + Vite
+# HRMS Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+MERN Stack HRMS (Human Resource Management System) - Frontend
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React (Vite)
+- React Router
+- Tailwind CSS
+- Context API (auth state)
+- Axios
 
-## React Compiler
+## Setup Instructions
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Clone the repo
 
-## Expanding the Oxlint configuration
+```bash
+git clone <repo-url>
+cd hrms-frontend
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+2. Install dependencies
+
+```bash
+npm install
+```
+
+3. Create `.env` file in root with:
+
+```
+VITE_API_URL=http://localhost:5000/api
+```
+
+For production, point this to the deployed backend URL.
+
+4. Run the dev server
+
+```bash
+npm run dev
+```
+
+App runs on `http://localhost:5173`
+
+## Live Deployment
+
+Frontend deployed at: https://hrms-frontend-two-chi.vercel.app
+
+## Folder Structure
+
+```
+src/
+  context/        - AuthContext (login state, token handling)
+  components/      - reusable UI pieces, grouped by feature
+  pages/           - route-level pages, grouped by feature
+  utils/           - axios instance with token interceptor
+```
+
+## Notes
+
+- No Redux - Context API used for auth state since app scope did not need global state beyond auth.
+- Role-based UI: Admin and Employee see different views on the same routes (e.g. `/leaves`, `/payroll`, `/attendance`) via role-check router components.
+- Full color-coded monthly calendar implemented on employee dashboard (simplified styling vs spec mockup, but functionally matches required color codes: Present, Absent, Paid Leave, Unpaid Leave, Holiday, Half Day).
