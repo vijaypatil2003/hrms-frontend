@@ -17,9 +17,24 @@ const LeaveForm = ({ onSuccess }) => {
     api.get("/leaves/balance").then((res) => setBalance(res.data));
   }, []);
 
+  const isMultiDay =
+    form.fromDate && form.toDate && form.fromDate !== form.toDate;
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm({ ...form, [name]: type === "checkbox" ? checked : value });
+    let updated = { ...form, [name]: type === "checkbox" ? checked : value };
+
+    if (name === "fromDate" || name === "toDate") {
+      const willBeMultiDay =
+        updated.fromDate &&
+        updated.toDate &&
+        updated.fromDate !== updated.toDate;
+      if (willBeMultiDay) {
+        updated.isHalfDay = false;
+      }
+    }
+
+    setForm(updated);
   };
 
   const handleSubmit = async (e) => {
@@ -79,16 +94,18 @@ const LeaveForm = ({ onSuccess }) => {
           required
         />
       </div>
-      <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          name="isHalfDay"
-          checked={form.isHalfDay}
-          onChange={handleChange}
-        />
-        <label className="text-sm text-gray-600">Half Day</label>
-      </div>
-      {form.isHalfDay && (
+      {!isMultiDay && (
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            name="isHalfDay"
+            checked={form.isHalfDay}
+            onChange={handleChange}
+          />
+          <label className="text-sm text-gray-600">Half Day</label>
+        </div>
+      )}
+      {form.isHalfDay && !isMultiDay && (
         <div>
           <label className="block text-sm text-gray-600 mb-1">Session</label>
           <select
