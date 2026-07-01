@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import logo from "../assets/company-logo.png";
 
 const Sidebar = () => {
   const { user } = useAuth();
@@ -11,7 +12,10 @@ const Sidebar = () => {
 
   return (
     <div className="w-56 h-screen bg-white border-r border-gray-200 p-4">
-      <h2 className="text-lg font-bold text-gray-800 mb-6">HRMS</h2>
+      <div className="flex items-center gap-2 mb-6">
+        <img src={logo} alt="logo" className="w-25 h-25" />
+        <h2 className="text-lg font-bold text-gray-800">HRMS</h2>
+      </div>{" "}
       <nav className="space-y-1">
         <NavLink to="/dashboard" className={linkClass}>
           Dashboard
