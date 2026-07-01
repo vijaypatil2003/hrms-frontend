@@ -27,7 +27,6 @@ const AdminPayrollPage = () => {
   return (
     <div>
       <h1 className="text-lg font-semibold text-gray-800 mb-4">Payroll</h1>
-
       <div className="flex gap-3 mb-4">
         <button
           onClick={() => setShowForm(!showForm)}
@@ -48,7 +47,6 @@ const AdminPayrollPage = () => {
           ))}
         </select>
       </div>
-
       {showForm && (
         <PayrollForm
           onSuccess={() => {
@@ -57,8 +55,11 @@ const AdminPayrollPage = () => {
           }}
         />
       )}
-
-      <PayrollTable records={records} isAdmin={true} />
+      <PayrollTable
+        records={records}
+        isAdmin={true}
+        onRefresh={fetchHistory}
+      />{" "}
     </div>
   );
 };

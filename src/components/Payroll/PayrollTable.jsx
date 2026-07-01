@@ -2,7 +2,7 @@ import { useState } from "react";
 import PayrollBreakdown from "./PayrollBreakdown";
 import api from "../../utils/axios";
 
-const PayrollTable = ({ records, isAdmin }) => {
+const PayrollTable = ({ records, isAdmin, onRefresh }) => {
   const [selected, setSelected] = useState(null);
 
   const handleDownload = async (id, month, year) => {
@@ -14,6 +14,23 @@ const PayrollTable = ({ records, isAdmin }) => {
     document.body.appendChild(link);
     link.click();
     link.remove();
+  };
+
+  const handleReset = async (r) => {
+    if (
+      !window.confirm(
+        `Reset payroll for ${r.employee?.name} - ${r.month}/${r.year}? This cannot be undone.`,
+      )
+    )
+      return;
+    try {
+      await api.delete("/payroll/reset", {
+        data: { employeeId: r.employee._id, month: r.month, year: r.year },
+      });
+      onRefresh();
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to reset payroll");
+    }
   };
 
   return (
@@ -71,6 +88,14 @@ const PayrollTable = ({ records, isAdmin }) => {
                   >
                     Download
                   </button>
+                  {isAdmin && (
+                    <button
+                      onClick={() => handleReset(r)}
+                      className="text-xs bg-red-600 text-white px-2 py-1 rounded-md"
+                    >
+                      Reset
+                    </button>
+                  )}
                 </div>
               </td>
             </tr>
