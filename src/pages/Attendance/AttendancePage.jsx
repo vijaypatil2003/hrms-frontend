@@ -4,6 +4,7 @@ import api from "../../utils/axios";
 const AttendancePage = () => {
   const [logs, setLogs] = useState([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState({ punchIn: false, punchOut: false });
 
   const fetchLogs = async () => {
     const res = await api.get("/attendance/me");
@@ -15,22 +16,30 @@ const AttendancePage = () => {
   }, []);
 
   const handlePunchIn = async () => {
+    if (loading.punchIn) return;
     setError("");
+    setLoading((prev) => ({ ...prev, punchIn: true }));
     try {
       await api.post("/attendance/punch-in");
       fetchLogs();
     } catch (err) {
       setError(err.response?.data?.message || "Punch in failed");
+    } finally {
+      setLoading((prev) => ({ ...prev, punchIn: false }));
     }
   };
 
   const handlePunchOut = async () => {
+    if (loading.punchOut) return;
     setError("");
+    setLoading((prev) => ({ ...prev, punchOut: true }));
     try {
       await api.post("/attendance/punch-out");
       fetchLogs();
     } catch (err) {
       setError(err.response?.data?.message || "Punch out failed");
+    } finally {
+      setLoading((prev) => ({ ...prev, punchOut: false }));
     }
   };
 
@@ -45,15 +54,17 @@ const AttendancePage = () => {
       <div className="flex gap-3 mb-6">
         <button
           onClick={handlePunchIn}
-          className="bg-green-600 text-white px-4 py-2 rounded-md text-sm"
+          disabled={loading.punchIn}
+          className="bg-green-600 text-white px-4 py-2 rounded-md text-sm disabled:opacity-60"
         >
-          Punch In
+          {loading.punchIn ? "Please wait..." : "Punch In"}
         </button>
         <button
           onClick={handlePunchOut}
-          className="bg-red-600 text-white px-4 py-2 rounded-md text-sm"
+          disabled={loading.punchOut}
+          className="bg-red-600 text-white px-4 py-2 rounded-md text-sm disabled:opacity-60"
         >
-          Punch Out
+          {loading.punchOut ? "Please wait..." : "Punch Out"}
         </button>
       </div>
 

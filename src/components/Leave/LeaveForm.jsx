@@ -47,6 +47,7 @@ const LeaveForm = ({ onSuccess }) => {
       setError(err.response?.data?.message || "Failed to apply leave");
     }
   };
+  const today = new Date().toISOString().split("T")[0];
 
   return (
     <form
@@ -78,6 +79,7 @@ const LeaveForm = ({ onSuccess }) => {
           type="date"
           name="fromDate"
           value={form.fromDate}
+          min={today}
           onChange={handleChange}
           className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
           required
@@ -89,6 +91,7 @@ const LeaveForm = ({ onSuccess }) => {
           type="date"
           name="toDate"
           value={form.toDate}
+          min={form.fromDate || today}
           onChange={handleChange}
           className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
           required
